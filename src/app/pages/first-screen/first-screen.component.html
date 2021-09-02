@@ -1,0 +1,14 @@
+<section for="camera-qr" class="container-camera">
+  <mat-card-header class="justify-content-center">
+    <mat-card-title>
+      Scan your QR Code
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card>
+    <mat-card-content>
+      <div class="inline">
+        <zxing-scanner (scanSuccess)="scanSuccessHandler($event)" [classList]="'small-video'" ></zxing-scanner>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</section>

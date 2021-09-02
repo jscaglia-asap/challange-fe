@@ -1,0 +1,27 @@
+<div class="row container">
+  <section for="Menu" class="col-12 section-menu">
+    <app-menu [serverOk]="serverOk" (checkServerEmmiter)="checkServerEmmiter()" (takeUploadPhotoEmmiter)="takeUploadPhotoEmmiter()" (logOutEmmiter)="logOutEmmiter()">
+    </app-menu>
+  </section>
+  <section for="Camera" class="col-12 section-camera mt-2">
+    <mat-card *ngIf="isCameraExist; else noCameraExist" class="card-container">
+      <mat-card-content>
+        <div class="web-cam-container">
+          <webcam [height]="screenWidth" [width]="screenWidth" [trigger]="triggerObservable" (imageCapture)="handleImage($event)"
+            [switchCamera]="nextWebcamObservable"></webcam>
+        </div>
+
+        <div *ngIf="errors.length > 0">
+          <h4>Error Messages:</h4>
+          <ul *ngFor="let error of errors">
+            <li>{{ error | json }}</li>
+          </ul>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <ng-template #noCameraExist>
+      Camera device not available
+    </ng-template>
+  </section>
+</div>

@@ -1,0 +1,8 @@
+<div class="base-container">
+  <section for="Menu" class="section-menu" *ngIf="!getIsLogged && notInFirstScreen()">
+    <button mat-raised-button color="primary" class="width-max mb-3" [routerLink]="[ '/first-screen' ]">SCAN QR
+      Code</button>
+  </section>
+  <router-outlet></router-outlet>
+</div>
+

@@ -1,0 +1,20 @@
+<mat-card>
+  <mat-card-header class="justify-content-center">
+    <mat-card-title>
+      Menú
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="row">
+      <div class="col-12 grid">
+        <button mat-raised-button color="primary" class="width-max mb-3" (click)="checkServer()">Check Server Status</button>
+      </div>
+      <div class="col-12 grid">
+        <button mat-raised-button color="primary" class="width-max mb-3" (click)="takeUploadPhoto()" [disabled]="!serverOk">Take photo & upload it</button>
+      </div>
+      <div class="col-12 grid">
+        <button mat-raised-button color="primary" class="width-max mb-3" (click)="logOut()">Log Out</button>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

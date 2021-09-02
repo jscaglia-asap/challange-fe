@@ -1,0 +1,18 @@
+<mat-card>
+  <mat-card-header class="justify-content-center">
+    <mat-card-title>
+      Your uploaded picture
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div for="Mi img" class="img-container">
+      <img [src]="imageBase64" class="upload-image"/>
+    </div>
+  </mat-card-content>
+  <mat-card-footer>
+    <mat-card-actions class="center">
+      <button mat-raised-button color="primary" class="width-quarter mb-3" [routerLink]="[ '/second-screen']">Return</button>
+      <button mat-raised-button color="primary" class="width-quarter mb-3" (click)="logOut()">Log Out</button>
+    </mat-card-actions>
+  </mat-card-footer>
+</mat-card>
