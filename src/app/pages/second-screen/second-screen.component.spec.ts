@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
-import { WebcamImage } from 'ngx-webcam';
+import { WebcamImage, WebcamModule, WebcamUtil } from 'ngx-webcam';
 import { Observable, of, throwError } from 'rxjs';
 import { BaseService } from 'src/app/components/base/services/base.service';
 
@@ -19,11 +19,12 @@ describe('SecondScreenComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [SecondScreenComponent],
-      imports: [RouterTestingModule, HttpClientTestingModule, MatSnackBarModule, RouterTestingModule],
+      imports: [RouterTestingModule, HttpClientTestingModule, MatSnackBarModule, RouterTestingModule, WebcamModule],
       providers: [
         SecondScreenService,
         BaseService,
-        MatSnackBar
+        MatSnackBar,
+        WebcamUtil
       ]
     })
       .compileComponents();
@@ -40,6 +41,24 @@ describe('SecondScreenComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('Init logged', () => {
+    it('Should init the webcam', (done: DoneFn) => {
+
+      // spyOn(WebcamUtil, 'getAvailableVideoInputs').and.callFake(() => Promise.resolve(Array<MediaDeviceInfo>()));
+
+      spyOn(WebcamUtil, 'getAvailableVideoInputs').and.returnValue(Promise.resolve([]));
+      baseService.setIsLogged(true);
+
+      component.ngOnInit();
+
+      expect(WebcamUtil.getAvailableVideoInputs).toHaveBeenCalled();
+      expect(component.isCameraExist).toBeTruthy();
+      done();
+    });
+
+  });
+
+
   describe('checkServerEmmiter function test', () => {
     it('Should Check server ok', () => {
       spyOn(ssService, 'checkServer').and.returnValue(of({ status: 'ok' }));
@@ -51,7 +70,7 @@ describe('SecondScreenComponent', () => {
     });
 
     it('Should Check server error', () => {
-      spyOn(ssService, 'checkServer').and.returnValue(throwError({status: 404}));
+      spyOn(ssService, 'checkServer').and.returnValue(throwError({ status: 404 }));
       spyOn(snackBar, 'open');
 
       component.checkServerEmmiter();
@@ -93,7 +112,7 @@ describe('SecondScreenComponent', () => {
 
       spyOn(component.getPicture, 'emit');
       spyOn(baseService, 'setImageId');
-      spyOn(ssService, 'checkServer').and.returnValue(throwError({status: 404}));
+      spyOn(ssService, 'checkServer').and.returnValue(throwError({ status: 404 }));
       spyOn(ssService, 'ranking');
       spyOn(snackBar, 'open');
 
@@ -132,7 +151,7 @@ describe('SecondScreenComponent', () => {
       spyOn(component.getPicture, 'emit');
       spyOn(baseService, 'setImageId');
       spyOn(ssService, 'checkServer').and.returnValue(of({ status: 'ok' }));
-      spyOn(ssService, 'ranking').and.returnValue(throwError({status: 404}));
+      spyOn(ssService, 'ranking').and.returnValue(throwError({ status: 404 }));
       spyOn(snackBar, 'open');
 
       component.handleImage(mockImge);

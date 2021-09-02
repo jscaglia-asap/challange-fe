@@ -1,17 +1,21 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { RouterTestingModule } from '@angular/router/testing';
+import { Router } from '@angular/router';
 
 import { BaseComponent } from './base.component';
 
 describe('BaseComponent', () => {
   let component: BaseComponent;
   let fixture: ComponentFixture<BaseComponent>;
+  let routerSpy = {navigate: jasmine.createSpy('navigate')};
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ BaseComponent ],
-      imports:[RouterTestingModule, MatSnackBarModule]
+      imports:[MatSnackBarModule],
+      providers:[
+        { provide: Router, useValue: routerSpy }
+      ]
     })
     .compileComponents();
   });
@@ -25,6 +29,16 @@ describe('BaseComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  describe('Initialize function test', () => {
+    it('Should redirect when is logged', () => {
+      expect(component.getIsLogged).toBeFalsy();
+      component.setIsLogged = true;
+      component.ngOnInit();
+      expect (routerSpy.navigate).toHaveBeenCalledWith(['/second-screen']);
+    });
+  });
+
 
   describe('BaseUrl function test', () => {
     it('Should return string empty', () => {
